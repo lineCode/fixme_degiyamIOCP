@@ -47,43 +47,52 @@ LIB_SESSIONDATA* LIB_SESSIONPOOL::CreateSession()
 	return pPlayer;
 }
 
-const LIB_SESSIONDATA* LIB_SESSIONPOOL::FindSession(WORD wSession)
+//const LIB_SESSIONDATA* LIB_SESSIONPOOL::FindSession(WORD wSession)
+//{
+//	LIB_SESSIONDATA* pFindSession = NULL;
+//
+//	this->m_Lock.Lock();
+//	{
+//
+//	}
+//	this->m_Lock.UnLock();
+//
+//	return pFindSession;
+//}
+//
+//const LIB_SESSIONDATA* LIB_SESSIONPOOL::FindSession(LPCTSTR szName)
+//{
+//	LIB_SESSIONDATA* pFindSession = NULL;
+//
+//	this->m_Lock.Lock();
+//	{
+//
+//	}
+//	this->m_Lock.UnLock();
+//
+//	return pFindSession;
+//}
+//
+//const LIB_SESSIONDATA* LIB_SESSIONPOOL::FindSessionID(WORD wID)
+//{
+//	LIB_SESSIONDATA* pFindSession = NULL;
+//
+//	this->m_Lock.Lock();
+//	{
+//
+//	}
+//	this->m_Lock.UnLock();
+//
+//	return pFindSession;
+//}
+
+LIB_SESSIONDATA* LIB_SESSIONPOOL::FindSession(const int index)
 {
-	LIB_SESSIONDATA* pFindSession = NULL;
-
-	this->m_Lock.Lock();
-	{
-
+	if (index < 0 || index >= SESSION_NUM) {
+		return nullptr;
 	}
-	this->m_Lock.UnLock();
 
-	return pFindSession;
-}
-
-const LIB_SESSIONDATA* LIB_SESSIONPOOL::FindSession(LPCTSTR szName)
-{
-	LIB_SESSIONDATA* pFindSession = NULL;
-
-	this->m_Lock.Lock();
-	{
-
-	}
-	this->m_Lock.UnLock();
-
-	return pFindSession;
-}
-
-const LIB_SESSIONDATA* LIB_SESSIONPOOL::FindSessionID(WORD wID)
-{
-	LIB_SESSIONDATA* pFindSession = NULL;
-
-	this->m_Lock.Lock();
-	{
-
-	}
-	this->m_Lock.UnLock();
-
-	return pFindSession;
+	return m_SessionBuffer[index];
 }
 
 const VOID LIB_SESSIONPOOL::InsertSession(LIB_SESSIONDATA* pSession)

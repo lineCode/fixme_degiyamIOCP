@@ -42,10 +42,10 @@ private :	// Member Variables of ServiceMain
 	LIB_IOCPModule		m_IOCP;
 	LIB_SERVERINFO		m_ServerInfo;
 	LIB_SESSIONPOOL		m_SessionPool;
-	LIB_CRITICALLOCK	m_Lock;
-	LIB_SESSIONDATA*	m_SendCtx;
+	LIB_CRITICALLOCK	m_Lock; // 삭제 예정
+	
 	HANDLE				m_hStopEvent;
-	HANDLE				m_hSendEvent;
+	
 private :	// Function of Thread
 	static const UINT _AcceptThread(LPVOID lpParam);
 	static const UINT _ControlThread(LPVOID lpParam);

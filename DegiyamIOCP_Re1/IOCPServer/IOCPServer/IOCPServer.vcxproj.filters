@@ -32,6 +32,9 @@
     <ClCompile Include="IOCPServerHost.cpp" />
     <ClCompile Include="PacketHandleAck.cpp" />
     <ClCompile Include="PacketHandleReq.cpp" />
+    <ClCompile Include="..\..\Common\CircularQueue.cpp">
+      <Filter>Common</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="stdafx.h" />
@@ -72,5 +75,8 @@
       <Filter>NetworkLib</Filter>
     </ClInclude>
     <ClInclude Include="ServiceManager.h" />
+    <ClInclude Include="..\..\Common\CircularQueue.h">
+      <Filter>Common</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>

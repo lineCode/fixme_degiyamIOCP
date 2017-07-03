@@ -153,6 +153,12 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="..\..\Common\CircularQueue.cpp">
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+      </PrecompiledHeader>
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
+      </PrecompiledHeader>
+    </ClCompile>
     <ClCompile Include="..\..\Common\LIB_LOGSYSTEM.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
       </PrecompiledHeader>
@@ -252,6 +258,7 @@
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="..\..\Common\CircularQueue.h" />
     <ClInclude Include="..\..\Common\Common.h" />
     <ClInclude Include="..\..\Common\LIB_LOCK.h" />
     <ClInclude Include="..\..\Common\LIB_LOGSYSTEM.h" />

@@ -10,7 +10,6 @@ using namespace NETWORKLIB;
 
 ServiceManager::ServiceManager()
 {
-	m_hSendEvent = INVALID_HANDLE_VALUE;
 	m_hStopEvent = INVALID_HANDLE_VALUE;
 }
 
@@ -19,7 +18,6 @@ ServiceManager::~ServiceManager()
 	if ( StopServer() != TRUE )
 		assert("ERROR : [return FALSE] ServiceMain::~ServiceMain");
 
-	SAFE_CLOSE_HANDLE(m_hSendEvent);
 	SAFE_CLOSE_HANDLE(m_hStopEvent);
 }
 
@@ -163,8 +161,7 @@ const BOOL ServiceManager::StartServer(LPTSTR* argv)
 
 
 	m_hStopEvent = CreateEvent(NULL, TRUE, FALSE, "Server Stop Event");
-	m_hSendEvent = CreateEvent(NULL, TRUE, FALSE, "Send Data Event");
-
+	
 	if ( WaitForSingleObject(m_hStopEvent, INFINITE) != WAIT_TIMEOUT )
 	{
 		SAFE_CLOSE_HANDLE(m_hStopEvent);
@@ -428,7 +425,7 @@ const BOOL ServiceManager::WorkerThread()
 			}
 			else if ( pPerIoCtx == pSession->m_SocketCtx.sendContext )
 			{
-				// WSASend 가 호출되고나서 Entry Point 가 여기로 온다. 마땅히 처리할 내용이 없다
+				pSession->CompleteSend();
 			}
 		}
 		else
@@ -456,31 +453,22 @@ const BOOL ServiceManager::WorkerThread()
 
 const BOOL ServiceManager::SendThread()
 {
-	DWORD	dwSendBytes = 0;
-	DWORD	dwFlags = 0;
-
 	while ( m_SendThread.IsRun() )
 	{
-		DWORD dwRet = WaitForSingleObject(m_hSendEvent, INFINITE);
-
-		if ( m_SendCtx != NULL )
+		for (int i = 0; i < SESSION_NUM; ++i)
 		{
-			int nReturn = ::WSASend(m_SendCtx->m_SocketCtx.clntSocket, &m_SendCtx->m_SocketCtx.sendContext->wsaBuf, 1, &dwSendBytes, dwFlags, &m_SendCtx->m_SocketCtx.sendContext->overlapped, NULL);
-
-			if ( nReturn == SOCKET_ERROR )
-			{
-				if ( WSAGetLastError() != ERROR_IO_PENDING )
-				{
-					// 에러처리
-				}
+			auto pSession = m_SessionPool.FindSession(i);
+			
+			if (pSession == nullptr) {
+				continue;
 			}
 
-			m_SendCtx = NULL;
+			pSession->FlushSend();
 		}
 
-		ResetEvent(m_hSendEvent);
+		Sleep(10);
 	}
-
+	
 	return TRUE;
 }
 

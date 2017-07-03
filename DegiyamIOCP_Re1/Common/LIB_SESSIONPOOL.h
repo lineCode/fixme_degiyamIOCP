@@ -22,9 +22,10 @@ namespace COMMONLIB
 		PLAYERMAP		m_mapPlayer;
 	public :
 		LIB_SESSIONDATA*	CreateSession();
-		const LIB_SESSIONDATA*	FindSession(WORD wSession);
+		/*const LIB_SESSIONDATA*	FindSession(WORD wSession);
 		const LIB_SESSIONDATA*	FindSession(LPCTSTR szName);
-		const LIB_SESSIONDATA*	FindSessionID(WORD wID);
+		const LIB_SESSIONDATA*	FindSessionID(WORD wID);*/
+		LIB_SESSIONDATA*	FindSession(const int index);
 		const VOID			InsertSession(LIB_SESSIONDATA* pSession);
 		const WORD			GetSessionSize();
 		const VOID			DeleteSession(LIB_SESSIONDATA* pSession);
